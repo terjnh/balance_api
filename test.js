@@ -1,32 +1,45 @@
 // import chai from "chai";
-var chai = require('chai');  
+var chai = require('chai'); 
+request = require("request");
+should = require("should");
+var assert = require('chai').assert;
 
 const { expect } = chai;
 
-describe("Test", () => {
-  it("Basic Test", async () => {
-    expect(1).to.equal(1);
-  });
-});
 
-
-// var assert = require('assert');
-// describe('Array', function() {
-//   describe('#indexOf()', function() {
-//     it('should return -1 when the value is not present', function() {
-//       assert.equal([1, 2, 3].indexOf(4), -1);
-//     });
+// describe("Test", () => {
+//   it("Basic Test", async () => {
+//     expect(1).to.equal(1);
 //   });
 // });
 
 
+describe('Individual currency-pair API', function() {
+  it('Check btc-usd GET', function(done) {
+    request.get('http://localhost:3000/btcusd', function(err, response, body) {
+      response.statusCode.should.equal(200);
+      done();
+    })
+  });
 
-const Index = require('./index')
-const assert = require('assert').strict;
-// The strict property of the assert module will allow us to use special equality tests that are recommended by Node.js
-
-describe("integration test", function() {
-    it("Ensure Balance Is Correct", function() {
-        assert.equal(Index.sampleFun, 4);
-    });
+  it('Check eth-usd GET', function(done) {
+    request.get('http://localhost:3000/ethusd', function(err, response, body) {
+      response.statusCode.should.equal(200);
+      done();
+    })
+  });
 });
+
+
+describe('Combined currency-pair API', function() {
+  it('Check btc-usd && eth-usd GET', function(done) {
+    request.get('http://localhost:3000/ethbtc_usd', function(err, response, body) {
+      response.statusCode.should.equal(200);
+      done();
+    })
+  });
+});
+
+
+
+

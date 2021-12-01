@@ -22,20 +22,31 @@ const userBalances = {
   "user-3": {
     "ETH": "5",
   },
+  "user-4": {
+
+  }
 }
 
 
 function userBalance(user) {
   let userBalance;
-  if (!userBalances[user]["BTC"])
+  if (!userBalances[user]["BTC"] && !userBalances[user]["ETH"]) {
+    userBalance = 0
+  }
+  else if (!userBalances[user]["BTC"]) {
     userBalance = userBalances[user]['ETH'] * ethusd_last
-  else if (!userBalances[user]["ETH"])
+  }
+  else if (!userBalances[user]["ETH"]) {
     userBalance = userBalances[user]['BTC'] * btcusd_last
-  else
+  }
+  else {
     userBalance = (userBalances[user]['BTC'] * btcusd_last) + (userBalances[user]['ETH'] * ethusd_last)
-  
-  // userBalance = Math.round(num*100)/100;
+  }
+
+  userBalance = Math.round(userBalance * 100) / 100;
   console.log(user, "balance:", userBalance);
+
+  return userBalance;
 }
 
 
@@ -86,6 +97,7 @@ app.get('/ethbtc_usd', async (req, res, next) => {
     userBalance("user-1")
     userBalance("user-2")
     userBalance("user-3")
+    userBalance("user-4")
 
   } catch (error) {
     // handle if you got an error
@@ -94,6 +106,18 @@ app.get('/ethbtc_usd', async (req, res, next) => {
 })
 
 
+
+// app.get('/test', async (req, res, next) => {
+//   res.send('test...')
+//   try {
+//     const response = await axiosInstance.get('/btcusd');
+//     // process your data and send back to the user
+//     console.log("response:", response.status);
+//   } catch (error) {
+//     // handle if you got an error
+//     console.log("response error")
+//   }
+// })
 
 
 
